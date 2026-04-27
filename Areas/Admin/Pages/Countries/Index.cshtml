@@ -1,0 +1,40 @@
+@page
+@model AdminCountriesModel
+@inject AppDbContext Context
+@{
+    var countries = Context.Countries.OrderBy(c => c.DisplayOrder).ToList();
+    ViewData["Title"] = "Countries";
+}
+
+<div class="bg-white rounded-xl shadow overflow-hidden">
+    <div class="p-6 flex justify-between items-center">
+        <h2 class="text-xl font-semibold">Countries</h2>
+        <a href="/admin/countries/create" class="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700">Add New Country</a>
+    </div>
+    <table class="w-full">
+        <thead class="bg-gray-50">
+            <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+            @foreach (var country in countries)
+            {
+                <tr>
+                    <td class="px-6 py-4">@country.Name</td>
+                    <td class="px-6 py-4"><span class="px-2 py-1 text-xs rounded-full @(country.IsActive ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800")">@(country.IsActive ? "Active" : "Inactive")</span></td>
+                    <td class="px-6 py-4">
+                        <a href="/admin/countries/edit/@country.Id" class="text-blue-600 hover:underline mr-3">Edit</a>
+                        <a href="/admin/countries/delete/@country.Id" class="text-red-600 hover:underline" onclick="return confirm('Are you sure?')">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@functions {
+    public class AdminCountriesModel : PageModel { public void OnGet() { } }
+}

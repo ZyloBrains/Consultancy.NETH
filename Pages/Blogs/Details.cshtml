@@ -1,0 +1,25 @@
+@page "/blogs/{slug}"
+@model BlogDetailsModel
+@inject IBlogService BlogService
+
+@{
+    var blog = await BlogService.GetBySlugAsync(ViewContext.RouteData.Values["slug"]?.ToString() ?? "");
+    ViewData["Title"] = blog?.Title ?? "Blog";
+}
+
+<section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+        @if (blog != null)
+        {
+            <div class="mb-8"><a href="/blogs" class="text-blue-600 hover:underline">← Blogs</a></div>
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h1 class="text-4xl font-bold mb-6">@blog.Title</h1>
+                <div class="prose max-w-none">@Html.Raw(blog.Content)</div>
+            </div>
+        }
+    </div>
+</section>
+
+@functions {
+    public class BlogDetailsModel : PageModel { public async Task OnGet() => await Task.CompletedTask; }
+}

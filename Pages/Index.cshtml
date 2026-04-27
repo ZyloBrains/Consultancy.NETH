@@ -1,0 +1,110 @@
+@page "/"
+@model IndexModel
+@inject ICourseService CourseService
+@inject ICountryService CountryService
+@inject ITeacherService TeacherService
+@inject IBlogService BlogService
+
+@{
+    ViewData["Title"] = "Home";
+    var courses = await CourseService.GetFeaturedAsync();
+    var countries = await CountryService.GetAllAsync();
+    var teachers = await TeacherService.GetFeaturedAsync();
+    var blogs = await BlogService.GetRecentAsync(3);
+}
+
+<section class="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-24">
+    <div class="max-w-7xl mx-auto px-4">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">Start Your Abroad Education Journey</h1>
+        <p class="text-xl mb-8 text-blue-100">We help you get admitted to top universities worldwide</p>
+        <div class="flex gap-4">
+            <a href="/courses" class="bg-white text-blue-700 px-6 py-3 rounded-lg font-medium hover:bg-blue-50">All Courses</a>
+            <a href="/contact" class="border-2 border-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-700">Get Started</a>
+        </div>
+    </div>
+</section>
+
+<section class="py-16">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">Featured Courses</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            @foreach (var course in courses)
+            {
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="h-48 bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
+                        <span class="text-4xl text-white font-bold">@(course.Name.Substring(0, Math.Min(2, course.Name.Length)))</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">@course.Name</h3>
+                        <p class="text-gray-600 text-sm mb-4">@course.Description</p>
+                        <a href="/courses/@course.Slug" class="text-blue-600 font-medium">Read More →</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">Choose Top Destinations</h2>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+            @foreach (var country in countries.Take(5))
+            {
+                <a href="/countries/@country.Slug" class="text-center p-6 border rounded-xl hover:border-blue-500 hover:shadow-lg transition">
+                    <div class="text-4xl mb-2">🏳️</div>
+                    <h3 class="font-semibold">@country.Name</h3>
+                </a>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="py-16">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">Featured Teachers</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            @foreach (var teacher in teachers)
+            {
+                <div class="text-center p-6">
+                    <div class="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center mb-4">
+                        <span class="text-3xl text-white font-bold">@(teacher.Name.Substring(0, 1))</span>
+                    </div>
+                    <h3 class="font-bold">@teacher.Name</h3>
+                    <p class="text-blue-600 text-sm">@teacher.Designation</p>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">Latest News</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            @foreach (var blog in blogs)
+            {
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="h-48 bg-gray-200"></div>
+                    <div class="p-6">
+                        <p class="text-sm text-gray-500 mb-2">@blog.CreatedAt.ToString("dd-MM-yyyy")</p>
+                        <h3 class="text-lg font-bold mb-2">@blog.Title</h3>
+                        <a href="/blogs/@blog.Slug" class="text-blue-600 font-medium">Read More →</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="py-16 bg-blue-600 text-white text-center">
+    <h2 class="text-3xl font-bold mb-4">Start Your Abroad Education Journey Today</h2>
+    <p class="mb-8">Our expert team is ready to help you every step of the way</p>
+    <a href="/contact" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-medium hover:bg-gray-100">Enroll Today</a>
+</section>
+
+@functions {
+    public class IndexModel : PageModel {
+        public void OnGet() { }
+    }
+}

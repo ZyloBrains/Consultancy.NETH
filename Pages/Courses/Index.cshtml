@@ -1,0 +1,34 @@
+@page
+@model CoursesModel
+@inject ICourseService CourseService
+@{
+    ViewData["Title"] = "Courses";
+    var courses = await CourseService.GetAllAsync();
+}
+
+<section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <h1 class="text-4xl font-bold text-center mb-12">Courses</h1>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            @foreach (var course in courses)
+            {
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="h-48 bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
+                        <span class="text-4xl text-white font-bold">@(course.Name.Substring(0, Math.Min(2, course.Name.Length)))</span>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-sm text-blue-600 font-medium">@course.Category?.Name</span>
+                        <h3 class="text-xl font-bold mt-2 mb-3">@course.Name</h3>
+                        <a href="/courses/@course.Slug" class="text-blue-600 font-medium">Read More →</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+@functions {
+    public class CoursesModel : PageModel {
+        public async Task OnGet() => await Task.CompletedTask;
+    }
+}

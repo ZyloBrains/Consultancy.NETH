@@ -1,0 +1,26 @@
+@page
+@model CountriesModel
+@inject ICountryService CountryService
+@{
+    var countries = await CountryService.GetAllAsync();
+    ViewData["Title"] = "Countries";
+}
+
+<section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <h1 class="text-4xl font-bold text-center mb-12">Countries</h1>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            @foreach (var country in countries)
+            {
+                <a href="/countries/@country.Slug" class="bg-white rounded-xl shadow-md p-8 text-center hover:shadow-lg transition">
+                    <div class="text-6xl mb-4">🏳️</div>
+                    <h3 class="text-xl font-bold">@country.Name</h3>
+                </a>
+            }
+        </div>
+    </div>
+</section>
+
+@functions {
+    public class CountriesModel : PageModel { public async Task OnGet() => await Task.CompletedTask; }
+}

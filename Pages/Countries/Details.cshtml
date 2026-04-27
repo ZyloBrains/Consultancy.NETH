@@ -1,0 +1,26 @@
+@page "/countries/{slug}"
+@model CountryDetailsModel
+@inject ICountryService CountryService
+
+@{
+    var country = await CountryService.GetBySlugAsync(ViewContext.RouteData.Values["slug"]?.ToString() ?? "");
+    ViewData["Title"] = country?.Name ?? "Country";
+}
+
+<section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+        @if (country != null)
+        {
+            <div class="mb-8"><a href="/countries" class="text-blue-600 hover:underline">← Countries</a></div>
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h1 class="text-4xl font-bold mb-6">@country.Name</h1>
+                <div class="prose max-w-none">@Html.Raw(country.Description)</div>
+                <a href="/contact" class="inline-block mt-8 bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700">Get Enroll</a>
+            </div>
+        }
+    </div>
+</section>
+
+@functions {
+    public class CountryDetailsModel : PageModel { public async Task OnGet() => await Task.CompletedTask; }
+}

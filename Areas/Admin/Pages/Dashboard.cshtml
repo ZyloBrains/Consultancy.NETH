@@ -1,0 +1,59 @@
+@page "/admin"
+@model DashboardModel
+@inject AppDbContext Context
+@{
+    var coursesCount = Context.Courses.Count();
+    var countriesCount = Context.Countries.Count();
+    var teachersCount = Context.Teachers.Count();
+    var inquiriesCount = Context.ContactInquiries.Count(c => c.Status == "New");
+}
+
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white p-6 rounded-xl shadow">
+        <p class="text-gray-500">Total Courses</p>
+        <p class="text-3xl font-bold">@coursesCount</p>
+    </div>
+    <div class="bg-white p-6 rounded-xl shadow">
+        <p class="text-gray-500">Countries</p>
+        <p class="text-3xl font-bold">@countriesCount</p>
+    </div>
+    <div class="bg-white p-6 rounded-xl shadow">
+        <p class="text-gray-500">Teachers</p>
+        <p class="text-3xl font-bold">@teachersCount</p>
+    </div>
+    <div class="bg-white p-6 rounded-xl shadow">
+        <p class="text-gray-500">New Inquiries</p>
+        <p class="text-3xl font-bold">@inquiriesCount</p>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="bg-white p-6 rounded-xl shadow">
+        <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
+        <div class="grid grid-cols-2 gap-4">
+            <a href="/admin/courses/create" class="bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700">Add Course</a>
+            <a href="/admin/countries/create" class="bg-teal-600 text-white text-center py-2 rounded-lg hover:bg-teal-700">Add Country</a>
+            <a href="/admin/teachers/create" class="bg-purple-600 text-white text-center py-2 rounded-lg hover:bg-purple-700">Add Teacher</a>
+            <a href="/admin/blogs/create" class="bg-amber-600 text-white text-center py-2 rounded-lg hover:bg-amber-700">Add Blog</a>
+        </div>
+    </div>
+    <div class="bg-white p-6 rounded-xl shadow">
+        <h3 class="text-lg font-semibold mb-4">Recent Inquiries</h3>
+        <div class="space-y-3">
+            @{
+                var inquiries = Context.ContactInquiries.OrderByDescending(c => c.CreatedAt).Take(5).ToList();
+                foreach (var inquiry in inquiries)
+                {
+                    <div class="flex justify-between py-2 border-b">
+                        <div><p class="font-medium">@inquiry.Name</p><p class="text-sm text-gray-500">@inquiry.Subject</p></div>
+                        <span class="text-xs text-gray-500">@inquiry.CreatedAt.ToString("dd-MM-yyyy")</span>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@functions {
+    public class DashboardModel : PageModel { public void OnGet() { } }
+}

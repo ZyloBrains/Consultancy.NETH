@@ -1,0 +1,35 @@
+@page "/courses/{slug}"
+@model CourseDetailsModel
+@inject ICourseService CourseService
+
+@{
+    var course = await CourseService.GetBySlugAsync(ViewContext.RouteData.Values["slug"]?.ToString() ?? "");
+    ViewData["Title"] = course?.Name ?? "Course";
+}
+
+<section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+        @if (course != null)
+        {
+            <div class="mb-8"><a href="/courses" class="text-blue-600 hover:underline">← All Courses</a></div>
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="h-64 bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
+                    <span class="text-6xl text-white font-bold">@(course.Name.Substring(0, Math.Min(2, course.Name.Length)))</span>
+                </div>
+                <div class="p-8">
+                    <h1 class="text-4xl font-bold mb-6">@course.Name</h1>
+                    <div class="prose max-w-none">@Html.Raw(course.Description)</div>
+                    <a href="/contact" class="inline-block mt-8 bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700">Get Enroll</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-12"><h1 class="text-2xl font-bold mb-4">Course not found</h1></div>
+        }
+    </div>
+</section>
+
+@functions {
+    public class CourseDetailsModel : PageModel { public async Task OnGet() => await Task.CompletedTask; }
+}
