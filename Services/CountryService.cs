@@ -9,16 +9,13 @@ public interface ICountryService
     Task<IEnumerable<Country>> GetAllAsync();
     Task<Country?> GetByIdAsync(int id);
     Task<Country?> GetBySlugAsync(string slug);
-    Task<Country> CreateAsync(Country country);
-    Task UpdateAsync(Country country);
-    Task DeleteAsync(int id);
 }
 
 public class CountryService : ICountryService
 {
-    private readonly AppDbContext _context;
+    private readonly ApplicationDbContext _context;
     
-    public CountryService(AppDbContext context)
+    public CountryService(ApplicationDbContext context)
     {
         _context = context;
     }
@@ -43,29 +40,5 @@ public class CountryService : ICountryService
         return await _context.Countries
             .Include(c => c.Courses)
             .FirstOrDefaultAsync(c => c.Slug == slug && c.IsActive);
-    }
-    
-    public async Task<Country> CreateAsync(Country country)
-    {
-        country.CreatedAt = DateTime.UtcNow;
-        _context.Countries.Add(country);
-        await _context.SaveChangesAsync();
-        return country;
-    }
-    
-    public async Task UpdateAsync(Country country)
-    {
-        _context.Countries.Update(country);
-        await _context.SaveChangesAsync();
-    }
-    
-    public async Task DeleteAsync(int id)
-    {
-        var country = await _context.Countries.FindAsync(id);
-        if (country != null)
-        {
-            _context.Countries.Remove(country);
-            await _context.SaveChangesAsync();
-        }
     }
 }

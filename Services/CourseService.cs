@@ -10,16 +10,13 @@ public interface ICourseService
     Task<IEnumerable<Course>> GetFeaturedAsync();
     Task<Course?> GetByIdAsync(int id);
     Task<Course?> GetBySlugAsync(string slug);
-    Task<Course> CreateAsync(Course course);
-    Task UpdateAsync(Course course);
-    Task DeleteAsync(int id);
 }
 
 public class CourseService : ICourseService
 {
-    private readonly AppDbContext _context;
+    private readonly ApplicationDbContext _context;
     
-    public CourseService(AppDbContext context)
+    public CourseService(ApplicationDbContext context)
     {
         _context = context;
     }
@@ -49,8 +46,6 @@ public class CourseService : ICourseService
         return await _context.Courses
             .Include(c => c.Category)
             .Include(c => c.Country)
-            .Include(c => c.CourseTeachers)
-            .ThenInclude(ct => ct.Teacher)
             .FirstOrDefaultAsync(c => c.Id == id);
     }
     
@@ -59,32 +54,6 @@ public class CourseService : ICourseService
         return await _context.Courses
             .Include(c => c.Category)
             .Include(c => c.Country)
-            .Include(c => c.CourseTeachers)
-            .ThenInclude(ct => ct.Teacher)
             .FirstOrDefaultAsync(c => c.Slug == slug && c.IsActive);
-    }
-    
-    public async Task<Course> CreateAsync(Course course)
-    {
-        course.CreatedAt = DateTime.UtcNow;
-        _context.Courses.Add(course);
-        await _context.SaveChangesAsync();
-        return course;
-    }
-    
-    public async Task UpdateAsync(Course course)
-    {
-        _context.Courses.Update(course);
-        await _context.SaveChangesAsync();
-    }
-    
-    public async Task DeleteAsync(int id)
-    {
-        var course = await _context.Courses.FindAsync(id);
-        if (course != null)
-        {
-            _context.Courses.Remove(course);
-            await _context.SaveChangesAsync();
-        }
     }
 }
