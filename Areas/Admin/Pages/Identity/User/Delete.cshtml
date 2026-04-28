@@ -1,0 +1,58 @@
+@page "/admin/identity/user/delete/{id}"
+@model UserDeleteModel
+@using Microsoft.AspNetCore.Identity
+@{
+    ViewData["Title"] = "Delete User";
+}
+
+<div class="bg-white rounded-xl shadow p-6 max-w-md mx-auto">
+    <h2 class="text-xl font-semibold mb-6">Delete User</h2>
+    <div class="mb-6">
+        <p class="text-gray-700">Are you sure you want to delete the user <strong>@Model.UserModel?.Email</strong>?</p>
+        <p class="text-red-600 text-sm mt-2">This action cannot be undone.</p>
+    </div>
+    <form method="post">
+        <input type="hidden" name="Id" value="@Model.UserModel?.Id" />
+        <div class="flex space-x-4">
+            <button type="submit" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700">Delete User</button>
+            <a href="/admin/identity/user" class="border border-gray-300 px-6 py-2 rounded-lg hover:bg-gray-50">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@functions {
+    public class UserDeleteModel : PageModel
+    {
+        private readonly UserManager<Models.ApplicationUser> _userManager;
+        
+        public UserDeleteModel(UserManager<Models.ApplicationUser> userManager)
+        {
+            _userManager = userManager;
+        }
+        
+        public Models.ApplicationUser? UserModel { get; set; }
+        
+        public async Task<IActionResult> OnGetAsync(string id)
+        {
+            UserModel = await _userManager.FindByIdAsync(id);
+            if (UserModel == null)
+            {
+                return Redirect("/admin/identity/user");
+            }
+            return Page();
+        }
+        
+        public async Task<IActionResult> OnPostAsync()
+        {
+            var id = Request.Form["Id"].ToString();
+            var user = await _userManager.FindByIdAsync(id);
+            
+            if (user != null)
+            {
+                await _userManager.DeleteAsync(user);
+            }
+            
+            return Redirect("/admin/identity/user");
+        }
+    }
+}

@@ -1,0 +1,130 @@
+@page "/admin/identity/user"
+@model UserIndexModel
+@using Microsoft.AspNetCore.Identity
+@{
+    ViewData["Title"] = "Users";
+}
+
+<div class="bg-white rounded-xl shadow p-6">
+    <div class="p-6 flex justify-between items-center">
+        <h2 class="text-xl font-semibold">Users</h2>
+        <a href="/admin/identity/user/register" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Register New User</a>
+    </div>
+    <table class="w-full">
+        <thead class="bg-gray-50">
+            <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Roles</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td class="px-6 py-4">@user.FirstName @user.LastName</td>
+                    <td class="px-6 py-4">@user.Email</td>
+                    <td class="px-6 py-4">
+                        @foreach (var role in Model.GetUserRoles(user.Id))
+                        {
+                            <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-1">@role</span>
+                        }
+                    </td>
+                    <td class="px-6 py-4">
+                        <button onclick="openRoleModal('@user.Id', '@user.Email')" class="text-blue-600 hover:underline mr-3">Assign Roles</button>
+                        <a href="/admin/identity/user/delete/@user.Id" class="text-red-600 hover:underline" onclick="return confirm('Are you sure?')">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Role Assignment Modal -->
+<div id="roleModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-xl p-6 w-full max-w-md">
+        <h3 class="text-lg font-semibold mb-4">Assign Roles to <span id="modalUserName"></span></h3>
+        <form method="post" id="roleForm">
+            <input type="hidden" name="UserId" id="modalUserId" />
+            <div class="space-y-2 mb-4">
+                @foreach (var role in Model.AllRoles)
+                {
+                    <label class="flex items-center">
+                        <input type="checkbox" name="SelectedRoles" value="@role.Name" class="mr-2" />
+                        @role.Name
+                    </label>
+                }
+            </div>
+            <div class="flex space-x-4">
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Save</button>
+                <button type="button" onclick="closeRoleModal()" class="border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-50">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openRoleModal(userId, userEmail) {
+        document.getElementById('modalUserId').value = userId;
+        document.getElementById('modalUserName').textContent = userEmail;
+        document.getElementById('roleModal').classList.remove('hidden');
+        document.getElementById('roleModal').classList.add('flex');
+    }
+    
+    function closeRoleModal() {
+        document.getElementById('roleModal').classList.add('hidden');
+        document.getElementById('roleModal').classList.remove('flex');
+    }
+</script>
+
+@functions {
+    public class UserIndexModel : PageModel
+    {
+        private readonly UserManager<Models.ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        
+        public UserIndexModel(UserManager<Models.ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            _userManager = userManager;
+            _roleManager = roleManager;
+        }
+        
+        public List<Models.ApplicationUser> Users { get; set; } = new();
+        public List<IdentityRole> AllRoles { get; set; } = new();
+        
+        public void OnGet()
+        {
+            Users = _userManager.Users.ToList();
+            AllRoles = _roleManager.Roles.ToList();
+        }
+        
+        public List<string> GetUserRoles(string userId)
+        {
+            var user = _userManager.FindByIdAsync(userId).Result;
+            return _userManager.GetRolesAsync(user).Result.ToList();
+        }
+        
+        public async Task<IActionResult> OnPost()
+        {
+            var userId = Request.Form["UserId"].ToString();
+            var selectedRoles = Request.Form["SelectedRoles"].ToArray();
+            
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return Redirect("/admin/identity/user");
+            }
+            
+            var currentRoles = await _userManager.GetRolesAsync(user);
+            await _userManager.RemoveFromRolesAsync(user, currentRoles);
+            
+            if (selectedRoles.Length > 0)
+            {
+                await _userManager.AddToRolesAsync(user, selectedRoles);
+            }
+            
+            return Redirect("/admin/identity/user");
+        }
+    }
+}
