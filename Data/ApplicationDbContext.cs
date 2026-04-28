@@ -22,6 +22,8 @@ public class ApplicationDbContext : IdentityDbContext<Models.ApplicationUser>
     public DbSet<Event> Events { get; set; }
     public DbSet<Testimonial> Testimonials { get; set; }
     public DbSet<ContactInquiry> ContactInquiries { get; set; }
+    public DbSet<DocumentRequirement> DocumentRequirements { get; set; }
+    public DbSet<StudentDocument> StudentDocuments { get; set; }
     public DbSet<SiteSetting> SiteSettings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -99,11 +101,24 @@ public class ApplicationDbContext : IdentityDbContext<Models.ApplicationUser>
             entity.HasKey(ur => new { ur.UserId, ur.RoleId });
             entity.ToTable("UserRoles");
         });
-
+        
         builder.Entity<IdentityUserLogin<string>>()
             .HasKey(l => new { l.LoginProvider, l.ProviderKey });
-
+        
         builder.Entity<IdentityUserToken<string>>()
             .HasKey(t => new { t.UserId, t.LoginProvider, t.Name });
+        
+        // Student Documents
+        builder.Entity<StudentDocument>()
+            .HasOne(sd => sd.Student)
+            .WithMany(s => s.Documents)
+            .HasForeignKey(sd => sd.StudentId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.Entity<StudentDocument>()
+            .HasOne(sd => sd.DocumentRequirement)
+            .WithMany()
+            .HasForeignKey(sd => sd.DocumentRequirementId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
