@@ -1,0 +1,52 @@
+@page
+@model RoleIndexModel
+@using Microsoft.AspNetCore.Identity
+@{
+    ViewData["Title"] = "Roles";
+}
+
+<div class="bg-white rounded-xl shadow p-6">
+    <div class="p-6 flex justify-between items-center">
+        <h2 class="text-xl font-semibold">Roles</h2>
+        <a href="/admin/identity/role/create" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Add New Role</a>
+    </div>
+    <table class="w-full">
+        <thead class="bg-gray-50">
+            <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+            @foreach (var role in Model.Roles)
+            {
+                <tr>
+                    <td class="px-6 py-4">@role.Name</td>
+                    <td class="px-6 py-4">
+                        <a href="/admin/identity/role/edit/@role.Id" class="text-blue-600 hover:underline mr-3">Edit</a>
+                        <a href="/admin/identity/role/delete/@role.Id" class="text-red-600 hover:underline" onclick="return confirm('Are you sure?')">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@functions {
+    public class RoleIndexModel : PageModel
+    {
+        private readonly RoleManager<IdentityRole> _roleManager;
+        
+        public RoleIndexModel(RoleManager<IdentityRole> roleManager)
+        {
+            _roleManager = roleManager;
+        }
+        
+        public List<IdentityRole> Roles { get; set; } = new();
+        
+        public void OnGet()
+        {
+            Roles = _roleManager.Roles.ToList();
+        }
+    }
+}

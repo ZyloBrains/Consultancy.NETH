@@ -1,0 +1,81 @@
+@page "/admin/identity/role/edit/{id}"
+@model RoleEditModel
+@using Microsoft.AspNetCore.Identity
+@inject RoleManager<IdentityRole> RoleManager
+@{
+    ViewData["Title"] = "Edit Role";
+}
+
+<div class="bg-white rounded-xl shadow p-6">
+    <h2 class="text-xl font-semibold mb-6">Edit Role</h2>
+    <form method="post">
+        <input type="hidden" name="Id" value="@Model.Role.Id" />
+        <div class="grid grid-cols-1 gap-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Role Name *</label>
+                <input type="text" name="RoleName" value="@Model.Role.Name" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required />
+            </div>
+        </div>
+        <div class="mt-6 flex space-x-4">
+            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Update Role</button>
+            <a href="/admin/identity/role" class="border border-gray-300 px-6 py-2 rounded-lg hover:bg-gray-50">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@functions {
+    public class RoleEditModel : PageModel
+    {
+        private readonly RoleManager<IdentityRole> _roleManager;
+        
+        public RoleEditModel(RoleManager<IdentityRole> roleManager)
+        {
+            _roleManager = roleManager;
+        }
+        
+        public IdentityRole Role { get; set; }
+        
+        public async Task<IActionResult> OnGetAsync(string id)
+        {
+            Role = await _roleManager.FindByIdAsync(id);
+            if (Role == null)
+            {
+                return Redirect("/admin/identity/role");
+            }
+            return Page();
+        }
+        
+        public async Task<IActionResult> OnPostAsync()
+        {
+            var id = Request.Form["Id"].ToString();
+            var roleName = Request.Form["RoleName"].ToString();
+            
+            var role = await _roleManager.FindByIdAsync(id);
+            if (role == null)
+            {
+                return Redirect("/admin/identity/role");
+            }
+            
+            if (string.IsNullOrWhiteSpace(roleName))
+            {
+                return Page();
+            }
+            
+            role.Name = roleName;
+            role.NormalizedName = roleName.ToUpper();
+            
+            var result = await _roleManager.UpdateAsync(role);
+            if (result.Succeeded)
+            {
+                return Redirect("/admin/identity/role");
+            }
+            
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+            
+            return Page();
+        }
+    }
+}

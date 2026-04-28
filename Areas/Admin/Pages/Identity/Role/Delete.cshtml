@@ -1,0 +1,70 @@
+@page "/admin/identity/role/delete/{id}"
+@model RoleDeleteModel
+@using Microsoft.AspNetCore.Identity
+@inject RoleManager<IdentityRole> RoleManager
+@{
+    ViewData["Title"] = "Delete Role";
+}
+
+<div class="bg-white rounded-xl shadow p-6">
+    <h2 class="text-xl font-semibold mb-6">Delete Role</h2>
+    <div class="mb-6">
+        <p class="text-gray-700">Are you sure you want to delete the role <strong>@Model.Role.Name</strong>?</p>
+        <p class="text-red-600 text-sm mt-2">This action cannot be undone.</p>
+    </div>
+    <form method="post">
+        <input type="hidden" name="Id" value="@Model.Role.Id" />
+        <div class="flex space-x-4">
+            <button type="submit" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700">Delete Role</button>
+            <a href="/admin/identity/role" class="border border-gray-300 px-6 py-2 rounded-lg hover:bg-gray-50">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@functions {
+    public class RoleDeleteModel : PageModel
+    {
+        private readonly RoleManager<IdentityRole> _roleManager;
+        
+        public RoleDeleteModel(RoleManager<IdentityRole> roleManager)
+        {
+            _roleManager = roleManager;
+        }
+        
+        public IdentityRole Role { get; set; }
+        
+        public async Task<IActionResult> OnGetAsync(string id)
+        {
+            Role = await _roleManager.FindByIdAsync(id);
+            if (Role == null)
+            {
+                return Redirect("/admin/identity/role");
+            }
+            return Page();
+        }
+        
+        public async Task<IActionResult> OnPostAsync()
+        {
+            var id = Request.Form["Id"].ToString();
+            var role = await _roleManager.FindByIdAsync(id);
+            
+            if (role == null)
+            {
+                return Redirect("/admin/identity/role");
+            }
+            
+            var result = await _roleManager.DeleteAsync(role);
+            if (result.Succeeded)
+            {
+                return Redirect("/admin/identity/role");
+            }
+            
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+            
+            return Page();
+        }
+    }
+}
