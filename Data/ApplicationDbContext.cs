@@ -30,22 +30,22 @@ public class ApplicationDbContext : IdentityDbContext<Models.ApplicationUser>
 
         builder.Entity<CourseTeacher>()
             .HasKey(ct => new { ct.CourseId, ct.TeacherId });
-            
+
         builder.Entity<CourseTeacher>()
             .HasOne(ct => ct.Course)
             .WithMany(c => c.CourseTeachers)
             .HasForeignKey(ct => ct.CourseId);
-            
+
         builder.Entity<CourseTeacher>()
             .HasOne(ct => ct.Teacher)
             .WithMany(t => t.CourseTeachers)
             .HasForeignKey(ct => ct.TeacherId);
-            
+
         builder.Entity<Course>()
             .HasOne(c => c.Category)
             .WithMany(cat => cat.Courses)
             .HasForeignKey(c => c.CategoryId);
-            
+
         builder.Entity<Course>()
             .HasOne(c => c.Country)
             .WithMany(c => c.Courses)

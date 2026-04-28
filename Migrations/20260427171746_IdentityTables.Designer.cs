@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Consultancy.NETH.Migrations.ApplicationDb
+namespace Consultancy.NETH.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260427064028_Identity")]
-    partial class Identity
+    [Migration("20260427171746_IdentityTables")]
+    partial class IdentityTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -278,6 +278,9 @@ namespace Consultancy.NETH.Migrations.ApplicationDb
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("VisaInfo")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
@@ -348,6 +351,9 @@ namespace Consultancy.NETH.Migrations.ApplicationDb
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -554,6 +560,9 @@ namespace Consultancy.NETH.Migrations.ApplicationDb
                     b.Property<string>("Photo")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
