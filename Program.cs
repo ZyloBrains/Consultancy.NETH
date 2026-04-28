@@ -6,9 +6,7 @@ using Consultancy.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add DbContexts
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
