@@ -68,24 +68,24 @@
         
         public Teacher Teacher { get; set; }
         
-        public async Task<IActionResult> OnGetAsync(int id)
+        public async Task OnGetAsync(int id)
         {
             Teacher = await _context.Teachers.FindAsync(id);
             if (Teacher == null)
             {
-                return Redirect("/admin/teachers");
+                Response.Redirect("/admin/teachers");
             }
-            return Page();
         }
         
-        public async Task<IActionResult> OnPostAsync()
+        public async Task OnPostAsync()
         {
             var id = int.Parse(Request.Form["Id"].ToString());
             var teacher = await _context.Teachers.FindAsync(id);
             
             if (teacher == null)
             {
-                return Redirect("/admin/teachers");
+                Response.Redirect("/admin/teachers");
+                return;
             }
             
             teacher.Name = Request.Form["Name"].ToString();
@@ -100,7 +100,7 @@
             teacher.UpdatedAt = DateTime.UtcNow;
             
             await _context.SaveChangesAsync();
-            return Redirect("/admin/teachers");
+            Response.Redirect("/admin/teachers");
         }
     }
 }
