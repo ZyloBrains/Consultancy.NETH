@@ -10,6 +10,7 @@ public interface ICourseService
     Task<IEnumerable<Course>> GetFeaturedAsync();
     Task<Course?> GetByIdAsync(int id);
     Task<Course?> GetBySlugAsync(string slug);
+    Task<int> GetTotalCountAsync();
 }
 
 public class CourseService : ICourseService
@@ -49,11 +50,16 @@ public class CourseService : ICourseService
             .FirstOrDefaultAsync(c => c.Id == id);
     }
     
-    public async Task<Course?> GetBySlugAsync(string slug)
-    {
-        return await _context.Courses
-            .Include(c => c.Category)
-            .Include(c => c.Country)
-            .FirstOrDefaultAsync(c => c.Slug == slug && c.IsActive);
-    }
+public async Task<Course?> GetBySlugAsync(string slug)
+{
+    return await _context.Courses
+        .Include(c => c.Category)
+        .Include(c => c.Country)
+        .FirstOrDefaultAsync(c => c.Slug == slug && c.IsActive);
+}
+
+public async Task<int> GetTotalCountAsync()
+{
+    return await _context.Courses.CountAsync(c => c.IsActive);
+}
 }

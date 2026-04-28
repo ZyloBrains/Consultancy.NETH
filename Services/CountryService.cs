@@ -9,6 +9,7 @@ public interface ICountryService
     Task<IEnumerable<Country>> GetAllAsync();
     Task<Country?> GetByIdAsync(int id);
     Task<Country?> GetBySlugAsync(string slug);
+    Task<int> GetTotalCountAsync();
 }
 
 public class CountryService : ICountryService
@@ -35,10 +36,15 @@ public class CountryService : ICountryService
             .FirstOrDefaultAsync(c => c.Id == id);
     }
     
-    public async Task<Country?> GetBySlugAsync(string slug)
-    {
-        return await _context.Countries
-            .Include(c => c.Courses)
-            .FirstOrDefaultAsync(c => c.Slug == slug && c.IsActive);
-    }
+public async Task<Country?> GetBySlugAsync(string slug)
+{
+    return await _context.Countries
+        .Include(c => c.Courses)
+        .FirstOrDefaultAsync(c => c.Slug == slug && c.IsActive);
+}
+
+public async Task<int> GetTotalCountAsync()
+{
+    return await _context.Countries.CountAsync(c => c.IsActive);
+}
 }
