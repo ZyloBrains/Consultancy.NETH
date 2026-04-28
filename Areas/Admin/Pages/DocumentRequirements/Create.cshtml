@@ -1,0 +1,47 @@
+@page
+@model Consultancy.Areas.Admin.Pages.DocumentRequirements.CreateModel
+@{
+    ViewData["Title"] = "Create Document Requirement";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">Create Document Requirement</h1>
+
+    <form method="post" class="max-w-lg">
+        <div class="mb-4">
+            <label asp-for="DocumentRequirement.Name" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="DocumentRequirement.Name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <span asp-validation-for="DocumentRequirement.Name" class="text-red-500 text-xs italic"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="DocumentRequirement.Description" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <textarea asp-for="DocumentRequirement.Description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3"></textarea>
+            <span asp-validation-for="DocumentRequirement.Description" class="text-red-500 text-xs italic"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="DocumentRequirement.DisplayOrder" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="DocumentRequirement.DisplayOrder" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <span asp-validation-for="DocumentRequirement.DisplayOrder" class="text-red-500 text-xs italic"></span>
+        </div>
+
+        <div class="mb-4">
+            <label class="flex items-center">
+                <input asp-for="DocumentRequirement.IsActive" class="form-checkbox h-5 w-5 text-blue-600">
+                <span class="ml-2 text-gray-700">Active</span>
+            </label>
+        </div>
+
+        <div class="flex items-center justify-between">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Create
+            </button>
+            <a asp-page="Index" class="text-gray-600 hover:text-gray-800">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,56 @@
+@page
+@model Consultancy.Areas.Admin.Pages.DocumentRequirements.IndexModel
+@{
+    ViewData["Title"] = "Document Requirements";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">Document Requirements</h1>
+        <a asp-page="Create" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Create New
+        </a>
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <table class="min-w-full">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Display Order</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @foreach (var item in Model.DocumentRequirements)
+                {
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">@item.Name</td>
+                        <td class="px-6 py-4">@item.Description</td>
+                        <td class="px-6 py-4 whitespace-nowrap">@item.DisplayOrder</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @if (item.IsActive)
+                            {
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    Active
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                    Inactive
+                                </span>
+                            }
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <a asp-page="Edit" asp-route-id="@item.Id" class="text-indigo-600 hover:text-indigo-900 mr-4">Edit</a>
+                            <a asp-page="Delete" asp-route-id="@item.Id" class="text-red-600 hover:text-red-900">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

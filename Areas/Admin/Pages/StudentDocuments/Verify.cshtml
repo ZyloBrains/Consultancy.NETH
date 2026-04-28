@@ -1,0 +1,144 @@
+@page
+@model Consultancy.Areas.Admin.Pages.StudentDocuments.VerifyModel
+@{
+    ViewData["Title"] = "Document Checklist - " + Model.Student?.Name;
+}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">Document Checklist</h1>
+        <a asp-page="Index" class="text-gray-600 hover:text-gray-800">Back to List</a>
+    </div>
+
+    @if (Model.Student != null)
+    {
+        <!-- Student Info Card -->
+        <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+            <div class="flex items-start justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">@Model.Student.Name</h2>
+                    <div class="mt-2 space-y-1 text-sm text-gray-600">
+                        <p>📧 @Model.Student.Email</p>
+                        <p>📞 @Model.Student.Phone</p>
+                        <p>📍 @Model.Student.Address</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    @if (Model.CompletionPercentage > 0)
+                    {
+                        <div class="text-4xl font-bold text-blue-600">@Model.CompletionPercentage%</div>
+                        <div class="text-xs text-gray-500">Documents Complete</div>
+                    }
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="mt-4">
+                <div class="w-full bg-gray-200 rounded-full h-4">
+                    <div class="bg-gradient-to-r from-green-400 to-blue-500 h-4 rounded-full transition-all duration-300" 
+                         style="width: @(Model.CompletionPercentage)%"></div>
+                </div>
+                <div class="flex justify-between mt-1 text-xs text-gray-500">
+                    <span>0%</span>
+                    <span class="font-bold">@Model.SubmittedCount / @Model.TotalDocuments documents submitted</span>
+                    <span>100%</span>
+                </div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.Student.GoogleDriveFolderUrl))
+            {
+                <a href="@Model.Student.GoogleDriveFolderUrl" target="_blank" 
+                   class="mt-4 inline-flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    📂 Open Google Drive Folder
+                </a>
+            }
+        </div>
+
+        <!-- Document Checklist -->
+        <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">Required Documents</h3>
+                <form method="post" asp-handler="Verify" class="inline">
+                    <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                        🔄 Verify Documents Now
+                    </button>
+                </form>
+            </div>
+
+            @if (Model.LastVerifiedAt.HasValue)
+            {
+                <p class="text-sm text-gray-600 mb-4">
+                    Last verified: @Model.LastVerifiedAt.Value.ToString("yyyy-MM-dd HH:mm")
+                </p>
+            }
+
+            <div class="space-y-3">
+                @foreach (var item in Model.Checklist)
+                {
+                    <div class="flex items-center justify-between p-4 border rounded-lg 
+                                @(item.Status == "Submitted" ? "bg-green-50 border-green-200" : 
+                                   item.Status == "Verified" ? "bg-blue-50 border-blue-200" : 
+                                   "bg-gray-50 border-gray-200")">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">
+                                @(item.Status == "Submitted" || item.Status == "Verified" ? "✅" : "❌")
+                            </span>
+                            <div>
+                                <div class="font-bold text-gray-800">@item.DocumentName</div>
+                                @if (!string.IsNullOrEmpty(item.Description))
+                                {
+                                    <div class="text-sm text-gray-500">@item.Description</div>
+                                }
+                                @if (!string.IsNullOrEmpty(item.FileName))
+                                {
+                                    <div class="text-xs text-gray-400 mt-1">File: @item.FileName</div>
+                                }
+                            </div>
+                        </div>
+                        <div>
+                            @if (item.Status == "Verified")
+                            {
+                                <span class="px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-800 font-semibold">Verified</span>
+                            }
+                            else if (item.Status == "Submitted")
+                            {
+                                <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-800 font-semibold">Submitted</span>
+                            }
+                            else
+                            {
+                                <span class="px-3 py-1 text-xs rounded-full bg-red-100 text-red-800 font-semibold">Missing</span>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Upload Document Section -->
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h3 class="text-lg font-bold mb-4">📤 Upload Document</h3>
+            <form method="post" asp-handler="Upload" enctype="multipart/form-data" class="space-y-4">
+                <input type="hidden" name="StudentId" value="@Model.Student.Id" />
+                
+                <div>
+                    <label class="block text-sm font-bold mb-2">Document Type</label>
+                    <select name="DocumentRequirementId" class="w-full border rounded-lg p-2">
+                        @foreach (var req in Model.AvailableRequirements)
+                        {
+                            <option value="@req.Id">@req.Name</option>
+                        }
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-bold mb-2">Select File</label>
+                    <input type="file" name="File" class="w-full border rounded-lg p-2" required />
+                </div>
+                
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Upload Document
+                </button>
+            </form>
+        </div>
+    }
+</div>

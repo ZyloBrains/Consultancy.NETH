@@ -1,0 +1,77 @@
+@page
+@model Consultancy.Areas.Admin.Pages.Students.CreateModel
+@{
+    ViewData["Title"] = "Add Student";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">Add New Student</h1>
+
+    <form method="post" class="max-w-lg bg-white shadow-md rounded-lg p-6">
+        <div class="mb-4">
+            <label asp-for="Input.Name" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="Input.Name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <span asp-validation-for="Input.Name" class="text-red-500 text-xs italic"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Input.Email" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="Input.Email" type="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <span asp-validation-for="Input.Email" class="text-red-500 text-xs italic"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Input.Phone" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="Input.Phone" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Input.Address" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <textarea asp-for="Input.Address" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3"></textarea>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Input.CountryId" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <select asp-for="Input.CountryId" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <option value="">Select Country</option>
+                @foreach (var country in Model.Countries)
+                {
+                    <option value="@country.Id">@country.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Input.CourseId" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <select asp-for="Input.CourseId" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <option value="">Select Course</option>
+                @foreach (var course in Model.Courses)
+                {
+                    <option value="@course.Id">@course.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Input.GoogleDriveFolderUrl" class="block text-gray-700 text-sm font-bold mb-2">Google Drive Folder URL</label>
+            <input asp-for="Input.GoogleDriveFolderUrl" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="https://drive.google.com/drive/folders/...">
+            <p class="text-xs text-gray-500 mt-1">Share this folder with the service account email</p>
+        </div>
+
+        <div class="mb-6">
+            <label asp-for="Input.GoogleDriveFolderId" class="block text-gray-700 text-sm font-bold mb-2">Google Drive Folder ID</label>
+            <input asp-for="Input.GoogleDriveFolderId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Extract from folder URL">
+        </div>
+
+        <div class="flex items-center justify-between">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Add Student
+            </button>
+            <a asp-page="/StudentDocuments/Index" class="text-gray-600 hover:text-gray-800">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
