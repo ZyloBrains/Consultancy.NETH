@@ -1,6 +1,6 @@
 @page
 @model AdminInquiriesModel
-@inject AppDbContext Context
+@inject ApplicationDbContext Context
 @{
     var inquiries = Context.ContactInquiries.OrderByDescending(i => i.CreatedAt).ToList();
     ViewData["Title"] = "Inquiries";

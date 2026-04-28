@@ -1,6 +1,6 @@
 @page
 @model AdminCoursesModel
-@inject AppDbContext Context
+@inject ApplicationDbContext Context
 @{
     var courses = Context.Courses.Include(c => c.Category).Include(c => c.Country).OrderBy(c => c.DisplayOrder).ToList();
     ViewData["Title"] = "Courses";

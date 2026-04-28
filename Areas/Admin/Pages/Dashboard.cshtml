@@ -1,6 +1,6 @@
 @page "/admin"
 @model DashboardModel
-@inject AppDbContext Context
+@inject ApplicationDbContext Context
 @{
     var coursesCount = Context.Courses.Count();
     var countriesCount = Context.Countries.Count();

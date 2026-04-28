@@ -1,0 +1,79 @@
+@page "/admin/countries/edit/{id}"
+@model EditCountryModel
+@inject ApplicationDbContext Context
+@{
+    ViewData["Title"] = "Edit Country";
+}
+
+<div class="bg-white rounded-xl shadow p-6">
+    <h2 class="text-xl font-semibold mb-6">Edit Country</h2>
+    <form method="post">
+        <input type="hidden" name="Id" value="@Model.Country.Id" />
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Name *</label>
+                <input type="text" name="Name" value="@Model.Country.Name" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required />
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Slug *</label>
+                <input type="text" name="Slug" value="@Model.Country.Slug" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required />
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Display Order</label>
+                <input type="number" name="DisplayOrder" value="@Model.Country.DisplayOrder" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Flag Image URL</label>
+                <input type="text" name="FlagImage" value="@Model.Country.FlagImage" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+            </div>
+            <div class="flex items-center">
+                <label class="flex items-center"><input type="checkbox" name="IsActive" class="mr-2" checked="@Model.Country.IsActive" />Active</label>
+            </div>
+        </div>
+        <div class="mt-6">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+            <textarea name="Description" rows="4" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">@Model.Country.Description</textarea>
+        </div>
+        <div class="mt-6 flex space-x-4">
+            <button type="submit" class="bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700">Update Country</button>
+            <a href="/admin/countries" class="border border-gray-300 px-6 py-2 rounded-lg hover:bg-gray-50">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@functions {
+    public class EditCountryModel : PageModel {
+        private readonly ApplicationDbContext _context;
+        public EditCountryModel(ApplicationDbContext context) => _context = context;
+        
+        public Country Country { get; set; }
+        
+        public async Task<IActionResult> OnGetAsync(int id) {
+            Country = await _context.Countries.FindAsync(id);
+            if (Country == null) {
+                return Redirect("/admin/countries");
+            }
+            return Page();
+        }
+        
+        public async Task<IActionResult> OnPostAsync() {
+            var id = int.Parse(Request.Form["Id"].ToString());
+            var country = await _context.Countries.FindAsync(id);
+            
+            if (country == null) {
+                return Redirect("/admin/countries");
+            }
+            
+            country.Name = Request.Form["Name"].ToString();
+            country.Slug = Request.Form["Slug"].ToString();
+            country.DisplayOrder = int.Parse(Request.Form["DisplayOrder"].ToString());
+            country.FlagImage = Request.Form["FlagImage"].ToString();
+            country.Description = Request.Form["Description"].ToString();
+            country.IsActive = Request.Form["IsActive"].Count > 0;
+            country.UpdatedAt = DateTime.UtcNow;
+            
+            await _context.SaveChangesAsync();
+            return Redirect("/admin/countries");
+        }
+    }
+}

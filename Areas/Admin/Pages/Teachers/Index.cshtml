@@ -1,6 +1,6 @@
 @page
 @model AdminTeachersModel
-@inject AppDbContext Context
+@inject ApplicationDbContext Context
 @{
     var teachers = Context.Teachers.OrderBy(t => t.DisplayOrder).ToList();
     ViewData["Title"] = "Teachers";

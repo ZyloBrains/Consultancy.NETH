@@ -1,6 +1,6 @@
 @page
 @model AdminCountriesModel
-@inject AppDbContext Context
+@inject ApplicationDbContext Context
 @{
     var countries = Context.Countries.OrderBy(c => c.DisplayOrder).ToList();
     ViewData["Title"] = "Countries";
