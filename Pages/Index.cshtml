@@ -537,104 +537,209 @@
                   
 
                                                             <!-- Featured Teachers -->
-                                                            <section class="py-18 bg-gray-50">
-                                                                <div class="container mx-auto px-4">
-                                                                    <div class="text-center mb-16">
-                                                                        <span class="text-primary font-semibold text-sm uppercase tracking-wider">Expert Faculty</span>
-                                                                        <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-6">Meet Our <span class="text-primary">Star
-                                                                            Teachers</span></h2>
-                                                                            <p class="text-gray-600 max-w-2xl mx-auto text-lg">Learn from the best educators with years of experience in
-                                                                                international education.</p>
-                                                                            </div>
-        
-                                                                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                                                                                @foreach (var teacher in teachers)
-                                                                                {
-                                                                                    <div class="bg-white rounded-2xl shadow-lg p-8 text-center hover:shadow-2xl transition duration-500">
-                                                                                        <div class="relative inline-block mb-6">
-                                                                                            <div
-                                                                                                class="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-primary to-blue-800 flex items-center justify-center shadow-xl">
-                                                                                                <span class="text-5xl text-white font-bold">@(teacher.Name.Substring(0, 1))</span>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="absolute bottom-0 right-0 bg-yellow-400 text-gray-900 w-10 h-10 rounded-full flex items-center justify-center shadow-lg">
-                                                                                                <i class="fa fa-check"></i>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <h3 class="text-xl font-bold mb-2">@teacher.Name</h3>
-                                                                                        <p class="text-primary font-semibold mb-4">@teacher.Designation</p>
-                                                                                        <div class="flex justify-center gap-3">
-                                                                                            <a href="#"
-                                                                                                   class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition">
-                                                                                                <i class="fab fa-facebook-f"></i>
-                                                                                            </a>
-                                                                                            <a href="#"
-                                                                                                   class="w-10 h-10 bg-pink-600 text-white rounded-full flex items-center justify-center hover:bg-pink-700 transition">
-                                                                                                <i class="fab fa-instagram"></i>
-                                                                                            </a>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                }
-                                                                            </div>
-                                                                        </div>
-                                                                    </section>
+                                                            <section class="py-18 bg-gray-50 relative overflow-hidden">
 
-                                                                    <!-- Testimonials -->
-                                                                    <section class="py-20 bg-white">
-                                                                        <div class="container mx-auto px-4">
-                                                                            <div class="text-center mb-16">
-                                                                                <span class="text-primary font-semibold text-sm uppercase tracking-wider">Testimonials</span>
-                                                                                <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-6">What Our <span class="text-primary">Students Say</span>
-                                                                                </h2>
-                                                                            </div>
-        
-                                                                            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                                                                                <div class="bg-gradient-to-br from-blue-50 to-white p-8 rounded-2xl shadow-lg">
-                                                                                    <div class="text-yellow-400 text-2xl mb-4">"</div>
-                                                                                    <p class="text-gray-600 mb-6 italic">"NETH is definitely the best consultancy I've worked with. They
-                                                                                        guided me in every step from choosing colleges to visa application process."</p>
-                                                                                        <div class="flex items-center gap-4">
-                                                                                            <div
-                                                                                                class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold">
-                                                                                                S</div>
-                                                                                                <div>
-                                                                                                    <h5 class="font-bold">Sujit Sharma</h5>
-                                                                                                    <p class="text-sm text-gray-500">Student, Australia</p>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="bg-gradient-to-br from-blue-50 to-white p-8 rounded-2xl shadow-lg">
-                                                                                            <div class="text-yellow-400 text-2xl mb-4">"</div>
-                                                                                            <p class="text-gray-600 mb-6 italic">"Excellent counseling and support throughout my journey. The
-                                                                                                teachers are very experienced and supportive."</p>
-                                                                                                <div class="flex items-center gap-4">
-                                                                                                    <div
-                                                                                                        class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold">
-                                                                                                        P</div>
-                                                                                                        <div>
-                                                                                                            <h5 class="font-bold">Priya Thapa</h5>
-                                                                                                            <p class="text-sm text-gray-500">Student, UK</p>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="bg-gradient-to-br from-blue-50 to-white p-8 rounded-2xl shadow-lg">
-                                                                                                    <div class="text-yellow-400 text-2xl mb-4">"</div>
-                                                                                                    <p class="text-gray-600 mb-6 italic">"Best consultancy in Kathmandu. Their guidance helped me secure
-                                                                                                        admission in top university with scholarship."</p>
-                                                                                                        <div class="flex items-center gap-4">
-                                                                                                            <div
-                                                                                                                class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold">
-                                                                                                                R</div>
-                                                                                                                <div>
-                                                                                                                    <h5 class="font-bold">Rahul KC</h5>
-                                                                                                                    <p class="text-sm text-gray-500">Student, Canada</p>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </section>
+    <!-- Background Glow -->
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-10 left-10 w-40 h-40 bg-red-500 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-10 right-10 w-52 h-52 bg-red-400 rounded-full blur-3xl"></div>
+    </div>
 
+    <div class="container mx-auto px-4 relative z-10">
+
+        <!-- Heading -->
+        <div class="text-center mb-16">
+
+            <span class="inline-flex items-center gap-2 bg-red-500/10 text-red-600 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider">
+                Expert Faculty
+            </span>
+
+            <h2 class="text-4xl md:text-5xl font-extrabold mt-5 mb-4">
+                Meet Our <span class="text-red-600">Star Teachers</span>
+            </h2>
+
+            <p class="text-gray-600 max-w-2xl mx-auto text-lg">
+                Learn from experienced mentors who guide students toward international success.
+            </p>
+
+        </div>
+
+        <!-- Cards (ONLY 3) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+
+            @foreach (var teacher in teachers.Take(3))
+            {
+                <div class="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 p-8 text-center border border-gray-100 relative overflow-hidden">
+
+                    <!-- Glow -->
+                    <div class="absolute inset-0 bg-gradient-to-br from-red-500/5 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+
+                    <!-- Avatar -->
+                    <div class="relative w-28 h-28 mx-auto mb-6">
+                        <div class="w-28 h-28 rounded-full bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center text-white text-4xl font-bold shadow-lg group-hover:scale-105 transition">
+                            @(teacher.Name.Substring(0, 1))
+                        </div>
+
+                        <!-- Check badge -->
+                        <div class="absolute bottom-0 right-0 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md border border-gray-100">
+                            <i class="fa fa-check text-red-500 text-sm"></i>
+                        </div>
+                    </div>
+
+                    <!-- Name -->
+                    <h3 class="text-xl font-bold mb-1 group-hover:text-red-600 transition">
+                        @teacher.Name
+                    </h3>
+
+                    <!-- Designation -->
+                    <p class="text-red-500 font-medium text-sm mb-4">
+                        @teacher.Designation
+                    </p>
+
+                    <!-- Divider -->
+                    <div class="w-12 h-1 bg-red-500/30 mx-auto rounded-full mb-6"></div>
+
+                    <!-- Social -->
+                    <div class="flex justify-center gap-3">
+
+                        <a href="#"
+                           class="w-10 h-10 rounded-full bg-gray-100 hover:bg-red-500 hover:text-white flex items-center justify-center transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+
+                        <a href="#"
+                           class="w-10 h-10 rounded-full bg-gray-100 hover:bg-red-500 hover:text-white flex items-center justify-center transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+
+                        <a href="#"
+                           class="w-10 h-10 rounded-full bg-gray-100 hover:bg-red-500 hover:text-white flex items-center justify-center transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+</section>
+
+                                                                   <!-- Testimonials -->
+<section class="py-20 bg-gray-50 relative overflow-hidden">
+
+    <!-- Background Glow -->
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-10 left-10 w-40 h-40 bg-red-500 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-10 right-10 w-52 h-52 bg-red-400 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="container mx-auto px-4 relative z-10">
+
+        <!-- Heading -->
+        <div class="text-center mb-16">
+
+            <span class="inline-flex items-center gap-2 bg-red-500/10 text-red-600 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider">
+                Testimonials
+            </span>
+
+            <h2 class="text-4xl md:text-5xl font-extrabold mt-5 mb-4">
+                What Our <span class="text-red-600">Students Say</span>
+            </h2>
+
+            <p class="text-gray-600 max-w-2xl mx-auto text-lg">
+                Real experiences from students who achieved their dreams with NETH Consultancy.
+            </p>
+
+        </div>
+
+        <!-- Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+
+            <!-- Card 1 -->
+            <div class="group bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl transition duration-500 border border-gray-100 relative overflow-hidden">
+
+                <div class="absolute inset-0 bg-gradient-to-br from-red-500/5 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+
+                <div class="text-red-500 text-3xl mb-4">❝</div>
+
+                <p class="text-gray-600 italic mb-6 leading-relaxed">
+                    NETH is definitely the best consultancy I've worked with. They guided me in every step from choosing colleges to visa application process.
+                </p>
+
+                <div class="flex items-center gap-4 pt-4 border-t border-gray-100">
+
+                    <div class="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center font-bold shadow">
+                        S
+                    </div>
+
+                    <div>
+                        <h5 class="font-bold text-gray-800">Sujit Sharma</h5>
+                        <p class="text-sm text-gray-500">Student, Australia</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Card 2 -->
+            <div class="group bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl transition duration-500 border border-gray-100 relative overflow-hidden">
+
+                <div class="absolute inset-0 bg-gradient-to-br from-red-500/5 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+
+                <div class="text-red-500 text-3xl mb-4">❝</div>
+
+                <p class="text-gray-600 italic mb-6 leading-relaxed">
+                    Excellent counseling and support throughout my journey. The teachers are very experienced and supportive.
+                </p>
+
+                <div class="flex items-center gap-4 pt-4 border-t border-gray-100">
+
+                    <div class="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center font-bold shadow">
+                        P
+                    </div>
+
+                    <div>
+                        <h5 class="font-bold text-gray-800">Priya Thapa</h5>
+                        <p class="text-sm text-gray-500">Student, UK</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Card 3 -->
+            <div class="group bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl transition duration-500 border border-gray-100 relative overflow-hidden">
+
+                <div class="absolute inset-0 bg-gradient-to-br from-red-500/5 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+
+                <div class="text-red-500 text-3xl mb-4">❝</div>
+
+                <p class="text-gray-600 italic mb-6 leading-relaxed">
+                    Best consultancy in Kathmandu. Their guidance helped me secure admission in top university with scholarship.
+                </p>
+
+                <div class="flex items-center gap-4 pt-4 border-t border-gray-100">
+
+                    <div class="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center font-bold shadow">
+                        R
+                    </div>
+
+                    <div>
+                        <h5 class="font-bold text-gray-800">Rahul KC</h5>
+                        <p class="text-sm text-gray-500">Student, Canada</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
                                                                                             <!-- Latest Blogs -->
                                                                                             <section class="py-20 bg-gray-50">
                                                                                                 <div class="container mx-auto px-4">
