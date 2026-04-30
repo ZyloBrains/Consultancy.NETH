@@ -74,9 +74,14 @@ app.MapGet("/seed-all", async (ApplicationDbContext db) =>
     {
         db.Countries.AddRange(new[] 
         { 
-            new Consultancy.Models.Entities.Country { Name = "USA" },
-            new Consultancy.Models.Entities.Country { Name = "UK" },
-            new Consultancy.Models.Entities.Country { Name = "Canada" }
+            new Consultancy.Models.Entities.Country { Name = "Australia", Slug = "australia", Description = "World-class universities & post-study work opportunities", DisplayOrder = 1 },
+            new Consultancy.Models.Entities.Country { Name = "USA", Slug = "usa", Description = "Home to Ivy League & top-ranked global universities", DisplayOrder = 2 },
+            new Consultancy.Models.Entities.Country { Name = "Canada", Slug = "canada", Description = "Affordable education with excellent immigration pathways", DisplayOrder = 3 },
+            new Consultancy.Models.Entities.Country { Name = "UK", Slug = "uk", Description = "Prestigious degrees with rich academic heritage", DisplayOrder = 4 },
+            new Consultancy.Models.Entities.Country { Name = "Japan", Slug = "japan", Description = "Cutting-edge technology & innovative research programs", DisplayOrder = 5 },
+            new Consultancy.Models.Entities.Country { Name = "Germany", Slug = "germany", Description = "Tuition-free education at world-renowned institutions", DisplayOrder = 6 },
+            new Consultancy.Models.Entities.Country { Name = "South Korea", Slug = "south-korea", Description = "Advanced tech hubs with generous scholarship options", DisplayOrder = 7 },
+            new Consultancy.Models.Entities.Country { Name = "China", Slug = "china", Description = "Rapidly growing education sector with diverse programs", DisplayOrder = 8 },
         });
         await db.SaveChangesAsync();
     }

@@ -7,6 +7,7 @@ namespace Consultancy.Services;
 public interface ICountryService
 {
     Task<IEnumerable<Country>> GetAllAsync();
+    Task<IEnumerable<Country>> GetFeaturedAsync(int count = 4);
     Task<Country?> GetByIdAsync(int id);
     Task<Country?> GetBySlugAsync(string slug);
     Task<int> GetTotalCountAsync();
@@ -26,6 +27,15 @@ public class CountryService : ICountryService
         return await _context.Countries
             .Where(c => c.IsActive)
             .OrderBy(c => c.DisplayOrder)
+            .ToListAsync();
+    }
+    
+    public async Task<IEnumerable<Country>> GetFeaturedAsync(int count = 4)
+    {
+        return await _context.Countries
+            .Where(c => c.IsActive)
+            .OrderBy(c => c.DisplayOrder)
+            .Take(count)
             .ToListAsync();
     }
     
