@@ -67,7 +67,7 @@
     </style>
 </head>
 
-<body>
+<body class="flex flex-col min-h-screen">
     <!-- Navbar - White floating rounded bar -->
     <nav class="fixed top-3 left-1/2 transform -translate-x-1/2 w-[85%] max-w-7xl z-50 bg-white shadow-lg rounded-2xl"
          id="main-navbar">
@@ -84,7 +84,6 @@
                        class="nav-link text-red-600 hover:text-blue-600 font-medium text-base">Countries</a>
                     <a href="/teachers"
                        class="nav-link text-red-600 hover:text-blue-600 font-medium text-base">Teachers</a>
-                    <a href="/blogs" class="nav-link text-red-600 hover:text-blue-600 font-medium text-base">Blogs</a>
                     <a href="/events" class="nav-link text-red-600 hover:text-blue-600 font-medium text-base">Events</a>
                     <a href="/about-us" class="nav-link text-red-600 hover:text-blue-600 font-medium text-base">About
                         Us</a>
@@ -111,7 +110,6 @@
                         <a href="/courses" class="block py-1.5 text-gray-700 text-sm">Courses</a>
                         <a href="/countries" class="block py-1.5 text-gray-700 text-sm">Countries</a>
                         <a href="/teachers" class="block py-1.5 text-gray-700 text-sm">Teachers</a>
-                        <a href="/blogs" class="block py-1.5 text-gray-700 text-sm">Blogs</a>
                         <a href="/events" class="block py-1.5 text-gray-700 text-sm">Events</a>
                         <a href="/about-us" class="block py-1.5 text-gray-700 text-sm">About Us</a>
                         <a href="/contact" class="block py-1.5 text-yellow-300 font-semibold text-sm">Get Started</a>
@@ -119,7 +117,7 @@
                 </div>
             </nav>
 
-            <main>
+            <main class="flex-grow">
                 @RenderBody()
             </main>
 
@@ -164,7 +162,6 @@
                 <ul class="space-y-3 text-gray-400">
                     <li><a href="/courses" class="hover:text-red-400 transition flex items-center gap-2"><i class="fa fa-chevron-right text-xs"></i>Courses</a></li>
                     <li><a href="/countries" class="hover:text-red-400 transition flex items-center gap-2"><i class="fa fa-chevron-right text-xs"></i>Countries</a></li>
-                    <li><a href="/blogs" class="hover:text-red-400 transition flex items-center gap-2"><i class="fa fa-chevron-right text-xs"></i>Blogs</a></li>
                     <li><a href="/events" class="hover:text-red-400 transition flex items-center gap-2"><i class="fa fa-chevron-right text-xs"></i>Events</a></li>
                     <li><a href="/contact" class="hover:text-red-400 transition flex items-center gap-2"><i class="fa fa-chevron-right text-xs"></i>Contact</a></li>
                 </ul>
@@ -207,7 +204,7 @@
 
     <p>
         Powered by 
-        <a href="https://zylobrains.com" target="_blank" class="inline-flex items-center font-semibold ml-1 text-base md:text-lg">
+        <a href="https://zylobrains.com" target="_blank" class="inline-flex items-center font-semibold ml-1 text-base">
             <span class="text-blue-400">Zylo</span>
             <span class="text-orange-400">Brains</span>
         </a>
