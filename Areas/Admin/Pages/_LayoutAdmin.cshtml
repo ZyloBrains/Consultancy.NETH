@@ -50,8 +50,11 @@
     </script>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
+    <!-- Mobile Overlay -->
+    <div id="sidebarOverlay" class="hidden fixed inset-0 bg-black/50 z-40 lg:hidden" onclick="closeMobileSidebar()"></div>
+
     <!-- Sidebar -->
-    <aside id="sidebar" class="sidebar fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-200 text-gray-900 font-medium z-50 flex flex-col">
+    <aside id="sidebar" class="sidebar fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-200 text-gray-900 font-medium z-50 flex flex-col -translate-x-full lg:translate-x-0 transition-transform duration-300">
         <div class="flex items-center justify-between p-5 border-b border-sidebar-light">
             <div class="flex items-center space-x-2">
                 <img src="~/images/neth_logo.jpg" alt="Logo" class="h-16 items-center w-auto" />
@@ -198,7 +201,7 @@
                 </div>
             </div>
         </header>
-        <div class="p-6 pt-28">
+        <div class="p-6 pt-8">
             @RenderBody()
         </div>
     </main>
@@ -231,8 +234,8 @@
 
         if (mobileToggle) {
             mobileToggle.addEventListener('click', () => {
-                sidebar.classList.toggle('hidden');
-                sidebar.classList.toggle('fixed');
+                sidebar.classList.toggle('-translate-x-full');
+                document.getElementById('sidebarOverlay').classList.toggle('hidden');
             });
         }
 
@@ -261,6 +264,11 @@
             } else {
                 enableDarkMode();
             }
+        }
+
+        function closeMobileSidebar() {
+            sidebar.classList.add('-translate-x-full');
+            document.getElementById('sidebarOverlay').classList.add('hidden');
         }
 
         // Initialize dark mode icons
