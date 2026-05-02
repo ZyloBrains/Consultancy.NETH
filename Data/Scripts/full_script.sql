@@ -9,21 +9,6 @@ END;
 GO
 
 BEGIN TRANSACTION;
-CREATE TABLE [Blogs] (
-    [Id] int NOT NULL IDENTITY,
-    [Title] nvarchar(300) NOT NULL,
-    [TitleNp] nvarchar(300) NOT NULL,
-    [Slug] nvarchar(300) NOT NULL,
-    [ShortDescription] nvarchar(500) NULL,
-    [ShortDescriptionNp] nvarchar(500) NULL,
-    [Content] nvarchar(max) NULL,
-    [ContentNp] nvarchar(max) NULL,
-    [Image] nvarchar(500) NULL,
-    [Author] nvarchar(200) NULL,
-    [IsActive] bit NOT NULL,
-    [CreatedAt] datetime2 NOT NULL,
-    CONSTRAINT [PK_Blogs] PRIMARY KEY ([Id])
-);
 
 CREATE TABLE [Categories] (
     [Id] int NOT NULL IDENTITY,
