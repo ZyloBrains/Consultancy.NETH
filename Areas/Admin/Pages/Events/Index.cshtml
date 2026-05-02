@@ -1,0 +1,94 @@
+@page "/admin/events"
+@model Consultancy.NETH.Areas.Admin.Pages.Events.IndexModel
+@{
+    ViewData["Title"] = "Manage Events";
+}
+
+<div class="mb-6 flex justify-between items-center">
+    <h2 class="text-2xl font-bold text-gray-800">Events</h2>
+    <a href="/admin/events/create" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700">
+        <i class="fa fa-plus mr-2"></i> Add Event
+    </a>
+</div>
+
+<!-- Events Table -->
+<div class="bg-white rounded-lg shadow-sm overflow-hidden">
+    @if (Model.Events.Any())
+    {
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50 border-b">
+                    <tr>
+                        <th class="text-left py-3 px-4 font-semibold text-sm text-gray-600">Title</th>
+                        <th class="text-left py-3 px-4 font-semibold text-sm text-gray-600">Date</th>
+                        <th class="text-left py-3 px-4 font-semibold text-sm text-gray-600">Location</th>
+                        <th class="text-center py-3 px-4 font-semibold text-sm text-gray-600">Status</th>
+                        <th class="text-right py-3 px-4 font-semibold text-sm text-gray-600">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var evt in Model.Events)
+                    {
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="py-3 px-4">
+                                <div>
+                                    <div class="font-medium text-gray-800">@evt.Title</div>
+                                    @if (!string.IsNullOrEmpty(evt.TitleNp))
+                                    {
+                                        <div class="text-xs text-gray-500">@evt.TitleNp</div>
+                                    }
+                                </div>
+                            </td>
+                            <td class="py-3 px-4 text-sm text-gray-600">
+                                @evt.EventDate.ToString("yyyy-MM-dd HH:mm")
+                            </td>
+                            <td class="py-3 px-4 text-sm text-gray-600">
+                                @(evt.Location ?? "-")
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                @if (evt.IsActive)
+                                {
+                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                        Active
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
+                                        Inactive
+                                    </span>
+                                }
+                            </td>
+                            <td class="py-3 px-4 text-right">
+                                <div class="flex items-center justify-end gap-2">
+                                    <a href="/events/@evt.Slug" target="_blank" 
+                                       class="text-blue-600 hover:text-blue-800 text-sm" title="View">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <a href="/admin/events/edit/@evt.Id" 
+                                       class="text-yellow-600 hover:text-yellow-800 text-sm" title="Edit">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a href="/admin/events/delete/@evt.Id" 
+                                       class="text-red-600 hover:text-red-800 text-sm" title="Delete">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-12">
+            <i class="fa fa-calendar text-4xl text-gray-300 mb-4"></i>
+            <p class="text-gray-500">No events found.</p>
+            <a href="/admin/events/create" class="inline-flex items-center gap-2 mt-4 text-blue-600 hover:underline">
+                <i class="fa fa-plus"></i> Create your first event
+            </a>
+        </div>
+    }
+</div>
