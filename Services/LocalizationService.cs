@@ -22,7 +22,6 @@ public class LocalizationService : ILocalizationService
             ["Countries"] = "Countries",
             ["About Us"] = "About Us",
             ["Contact"] = "Contact",
-            ["Blogs"] = "Blogs",
             ["Events"] = "Events",
             ["Teachers"] = "Teachers",
             ["Get Started"] = "Get Started",
@@ -34,7 +33,6 @@ public class LocalizationService : ILocalizationService
             ["Latest Events"] = "Latest Events",
             ["All Events"] = "All Events",
             ["Peoples Testimonial"] = "What people say about us",
-            ["Latest News"] = "Latest News",
             ["Read More"] = "Read More",
             ["Our students come from every corner of the country"] = "Our students come from every corner of the country",
             ["Enroll Today"] = "Enroll Today",
@@ -65,8 +63,7 @@ public class LocalizationService : ILocalizationService
             ["Search"] = "Search...",
             ["No courses found"] = "No courses found",
             ["No countries found"] = "No countries found",
-            ["No events found"] = "No events found",
-            ["No blogs found"] = "No blogs found"
+            ["No events found"] = "No events found"
         },
         ["np"] = new Dictionary<string, string>
         {
@@ -87,7 +84,6 @@ public class LocalizationService : ILocalizationService
             ["Latest Events"] = "नवीनतम इभेन्टहरू",
             ["All Events"] = "सबै इभेन्टहरू",
             ["Peoples Testimonial"] = "हाम्रो बारेमा मान्छेहरू के भन्छन्",
-            ["Latest News"] = "ताजा खबर",
             ["Read More"] = "थप पढ्नुहोस्",
             ["Our students come from every corner of the country"] = "हाम्रा विद्यार्थीहरू देशको हरेक कुनाबाट आउँछन्",
             ["Enroll Today"] = "आज नै भर्ना गर्नुहोस्",
@@ -118,8 +114,7 @@ public class LocalizationService : ILocalizationService
             ["Search"] = "खोज्नुहोस्...",
             ["No courses found"] = "कोर्स फेला परेन",
             ["No countries found"] = "देश फेला परेन",
-            ["No events found"] = "इभेन्ट फेला परेन",
-            ["No blogs found"] = "ब्लग फेला परेन"
+            ["No events found"] = "इभेन्ट फेला परेन"
         }
     };
     
