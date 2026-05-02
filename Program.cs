@@ -38,7 +38,6 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
-builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<ITestimonialService, TestimonialService>();
 builder.Services.AddScoped<IContactService, ContactService>();
