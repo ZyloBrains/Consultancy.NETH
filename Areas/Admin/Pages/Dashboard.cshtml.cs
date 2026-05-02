@@ -18,7 +18,6 @@ namespace Consultancy.NETH.Areas.Admin.Pages
         public int TotalCourses { get; set; }
         public int TotalCountries { get; set; }
         public int TotalTeachers { get; set; }
-        public int TotalBlogs { get; set; }
         public int NewInquiries { get; set; }
         public int PendingDocuments { get; set; }
 
@@ -35,7 +34,6 @@ namespace Consultancy.NETH.Areas.Admin.Pages
             TotalCourses = await _context.Courses.CountAsync(c => c.IsActive);
             TotalCountries = await _context.Countries.CountAsync(c => c.IsActive);
             TotalTeachers = await _context.Teachers.CountAsync(t => t.IsActive);
-            TotalBlogs = await _context.Blogs.CountAsync();
             NewInquiries = await _context.ContactInquiries.CountAsync(c => c.Status == "New");
             PendingDocuments = await _context.StudentDocuments.CountAsync(d => d.Status == "Pending");
 
